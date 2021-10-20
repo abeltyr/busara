@@ -1,4 +1,4 @@
-import 'package:edudr/src/features/setting/service/index.dart';
+import 'package:edudr/src/setting/service/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
