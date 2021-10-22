@@ -1,7 +1,7 @@
-import 'package:edudr/src/setting/controller/index.dart';
-import 'package:edudr/src/setting/view/index.dart';
-import 'package:edudr/src/tasks/view/index.dart';
-import 'package:edudr/utils/color_theme.dart';
+import 'package:busara/src/setting/controller/index.dart';
+import 'package:busara/src/setting/view/index.dart';
+import 'package:busara/src/tasks/view/index.dart';
+import 'package:busara/utils/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

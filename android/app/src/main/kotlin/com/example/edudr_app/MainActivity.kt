@@ -1,4 +1,4 @@
-package com.example.edudr
+package com.example.busara
 
 import io.flutter.embedding.android.FlutterActivity
 

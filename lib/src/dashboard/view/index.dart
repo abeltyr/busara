@@ -1,4 +1,4 @@
-import 'package:edudr/utils/color_theme.dart';
+import 'package:busara/utils/color_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

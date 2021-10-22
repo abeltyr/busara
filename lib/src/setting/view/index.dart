@@ -1,4 +1,4 @@
-import 'package:edudr/src/setting/controller/index.dart';
+import 'package:busara/src/setting/controller/index.dart';
 import 'package:flutter/material.dart';
 
 /// Displays the various settings that can be customized by the user.
