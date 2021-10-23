@@ -16,11 +16,11 @@ class GameBoardFirstProvider with ChangeNotifier {
       "used": false,
     },
     {
-      "state": "wind",
+      "state": "water",
       "used": false,
     },
     {
-      "state": "wind",
+      "state": "water",
       "used": false,
     },
   ];

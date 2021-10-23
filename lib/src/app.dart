@@ -1,5 +1,6 @@
 import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/controller/second.dart';
+import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/setting/controller/index.dart';
 import 'package:busara/src/setting/view/index.dart';
 import 'package:busara/src/tasks/view/index.dart';
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
             ),
             ChangeNotifierProvider.value(
               value: GameBoardFirstProvider(),
+            ),
+            ChangeNotifierProvider.value(
+              value: UserWinsProvider(),
             ),
           ],
           child: MaterialApp(

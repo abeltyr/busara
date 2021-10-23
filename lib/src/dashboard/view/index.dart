@@ -1,6 +1,8 @@
 import 'package:busara/models/board_component.dart';
 import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/controller/second.dart';
+import 'package:busara/src/dashboard/controller/wins.dart';
+import 'package:busara/src/dashboard/view/box.dart';
 import 'package:busara/src/dashboard/view/widget/game_row.dart';
 import 'package:busara/src/dashboard/view/widget/resource.dart';
 import 'package:busara/utils/color_theme.dart';
@@ -22,6 +24,8 @@ class DashboardScreen extends StatelessWidget {
             : MediaQuery.of(context).size.height;
     final gameBoardProvider =
         Provider.of<GameBoardProvider>(context, listen: true);
+    final userWinsProvider =
+        Provider.of<UserWinsProvider>(context, listen: true);
 
     return Scaffold(
       backgroundColor: PlatformColorTheme.secondaryColor,
@@ -270,136 +274,95 @@ class DashboardScreen extends StatelessWidget {
                           feedback: Resource(data: gameBoardProvider.resource),
                         ),
                       ),
-                    GestureDetector(
-                      onTap: () {
-                        Random random = Random();
-                        int randomNumber = random.nextInt(4);
-                        switch (randomNumber) {
-                          case 1:
-                            gameBoardProvider.setResource("fire");
-                            return;
-                          case 2:
-                            gameBoardProvider.setResource("earth");
-                            return;
-                          case 3:
-                            gameBoardProvider.setResource("wind");
-                            return;
-                          case 4:
-                            gameBoardProvider.setResource("water");
-                            return;
-                          default:
-                            gameBoardProvider.setResource("water");
-                            return;
-                        }
-                      },
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        color: PlatformColorTheme.primaryColor,
+                    if (!gameBoardProvider.starter)
+                      GestureDetector(
+                        onTap: () {
+                          Random random = Random();
+                          int randomNumber = random.nextInt(4);
+                          switch (randomNumber) {
+                            case 1:
+                              gameBoardProvider.setResource("fire");
+                              return;
+                            case 2:
+                              gameBoardProvider.setResource("earth");
+                              return;
+                            case 3:
+                              gameBoardProvider.setResource("wind");
+                              return;
+                            case 4:
+                              gameBoardProvider.setResource("water");
+                              return;
+                            default:
+                              gameBoardProvider.setResource("water");
+                              return;
+                          }
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          color: PlatformColorTheme.primaryColor,
+                        ),
                       ),
-                    ),
-
-                    // Container(
-                    //   width: 500,
-                    //   height: 350,
-                    //   color: PlatformColorTheme.primaryColor,
-                    //   child: Column(
-                    //     children: [
-                    //       Row(
-                    //         children: [
-                    //           Container(
-                    //             width: 160,
-                    //             height: 160,
-                    //             decoration: BoxDecoration(
-                    //                 border: Border.all(
-                    //               color: PlatformColorTheme.white,
-                    //               width: 2,
-                    //             )),
-                    //             child: Column(
-                    //               mainAxisAlignment:
-                    //                   MainAxisAlignment.spaceBetween,
-                    //               children: [
-                    //                 Container(
-                    //                   height: 106,
-                    //                   color: Colors.red,
-                    //                 ),
-                    //                 SizedBox(
-                    //                   height: 50,
-                    //                   child: Image.asset(
-                    //                     "assets/images/Art.png",
-                    //                     width: 100,
-                    //                   ),
-                    //                 )
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           const SizedBox(
-                    //             width: 10,
-                    //           ),
-                    //           Container(
-                    //             width: 160,
-                    //             height: 160,
-                    //             decoration: BoxDecoration(
-                    //                 border: Border.all(
-                    //               color: PlatformColorTheme.white,
-                    //               width: 2,
-                    //             )),
-                    //           ),
-                    //           const SizedBox(
-                    //             width: 10,
-                    //           ),
-                    //           Container(
-                    //             width: 160,
-                    //             height: 160,
-                    //             decoration: BoxDecoration(
-                    //                 border: Border.all(
-                    //               color: PlatformColorTheme.white,
-                    //               width: 2,
-                    //             )),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //       const SizedBox(height: 20),
-                    //       Row(
-                    //         children: [
-                    //           Container(
-                    //             width: 160,
-                    //             height: 160,
-                    //             decoration: BoxDecoration(
-                    //                 border: Border.all(
-                    //               color: PlatformColorTheme.white,
-                    //               width: 2,
-                    //             )),
-                    //           ),
-                    //           const SizedBox(
-                    //             width: 10,
-                    //           ),
-                    //           Container(
-                    //             width: 160,
-                    //             height: 160,
-                    //             decoration: BoxDecoration(
-                    //                 border: Border.all(
-                    //               color: PlatformColorTheme.white,
-                    //               width: 2,
-                    //             )),
-                    //           ),
-                    //           const SizedBox(
-                    //             width: 10,
-                    //           ),
-                    //           Container(
-                    //             width: 160,
-                    //             height: 160,
-                    //             decoration: BoxDecoration(
-                    //                 border: Border.all(
-                    //               color: PlatformColorTheme.white,
-                    //               width: 2,
-                    //             )),
-                    //           ),
-                    //         ],
-                    //       )
-                    //     ],
-                    //   ),
-                    // )
+                    Container(
+                      width: 500,
+                      height: 350,
+                      margin: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Box(
+                                image: "assets/images/Art.png",
+                                win: userWinsProvider.userWins.art,
+                                needed: userWinsProvider.userRequired.art,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Box(
+                                image: "assets/images/Energy.png",
+                                win: userWinsProvider.userWins.energy,
+                                needed: userWinsProvider.userRequired.energy,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Box(
+                                image: "assets/images/Security.png",
+                                win: userWinsProvider.userWins.security,
+                                needed: userWinsProvider.userRequired.security,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Box(
+                                image: "assets/images/Wisdom.png",
+                                win: userWinsProvider.userWins.wisdom,
+                                needed: userWinsProvider.userRequired.wisdom,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Box(
+                                image: "assets/images/Nature.png",
+                                win: userWinsProvider.userWins.nature,
+                                needed: userWinsProvider.userRequired.nature,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Box(
+                                image: "assets/images/Economy.png",
+                                win: userWinsProvider.userWins.economy,
+                                needed: userWinsProvider.userRequired.economy,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

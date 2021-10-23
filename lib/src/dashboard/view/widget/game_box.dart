@@ -1,7 +1,7 @@
 import 'package:busara/models/board_component.dart';
 import 'package:busara/src/dashboard/controller/index.dart';
+import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/dashboard/view/widget/resource.dart';
-import 'package:busara/utils/color_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
@@ -11,10 +11,31 @@ class GameBox extends StatelessWidget {
   const GameBox({required this.size, required this.number, Key? key})
       : super(key: key);
 
+  String forging(String state1, String state2) {
+    if (state1 == 'fire' && state2 == 'water') {
+      return 'art';
+    } else if (state1 == 'fire' && state2 == 'earth') {
+      return 'security';
+    } else if (state1 == 'fire' && state2 == 'wind') {
+      return 'wisdom';
+    } else if (state1 == 'wind' && state2 == 'earth') {
+      return 'energy';
+    } else if (state1 == 'wind' && state2 == 'water') {
+      return 'economy';
+    } else if (state1 == 'water' && state2 == 'earth') {
+      return 'nature';
+    } else {
+      return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool win = false;
+    String winVirtue = "";
     final gameBoardProvider =
         Provider.of<GameBoardProvider>(context, listen: false);
+
     List<GameBoardModel> data = gameBoardProvider.board;
     return DragTarget(
       onWillAccept: (Object? value) {
@@ -51,7 +72,9 @@ class GameBox extends StatelessWidget {
 
         //Rule for the overlaying a resource with a secondary resource
         if (data[number].state.isNotEmpty) {
-          if (stateData.position == -1) return false;
+          if (stateData.position == -1) {
+            return false;
+          }
         }
         if (stateData.position == -1) return true;
 
@@ -78,6 +101,32 @@ class GameBox extends StatelessWidget {
       },
       onAccept: (Object? value) {
         GameBoardModel? stateData = value! as GameBoardModel;
+        //Rule for the overlaying a resource with a secondary resource
+        if (data[number].state.isNotEmpty) {
+          String res = forging(stateData.state, data[number].state);
+          String res1 = forging(
+            data[number].state,
+            stateData.state,
+          );
+          if (res == res1 || res.isNotEmpty) {
+            Provider.of<UserWinsProvider>(context, listen: false)
+                .updateUserWin(res);
+            data[number] = GameBoardModel(
+              position: number,
+              state: "",
+            );
+            gameBoardProvider.setBoard(data);
+          } else if (res.isEmpty && res1.isNotEmpty) {
+            Provider.of<UserWinsProvider>(context, listen: false)
+                .updateUserWin(res1);
+            data[number] = GameBoardModel(
+              position: number,
+              state: "",
+            );
+            gameBoardProvider.setBoard(data);
+          }
+        }
+
         data[number] = GameBoardModel(
           position: number,
           state: stateData.state,
