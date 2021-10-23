@@ -109,7 +109,7 @@ class MyApp extends StatelessWidget {
                     case TasksScreen.routeName:
                       return const TasksScreen();
                     default:
-                      return DashboardScreen();
+                      return const DashboardScreen();
                   }
                 },
               );

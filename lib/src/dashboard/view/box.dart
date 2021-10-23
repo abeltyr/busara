@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class Box extends StatelessWidget {
   final int win;
@@ -17,6 +18,7 @@ class Box extends StatelessWidget {
     return Container(
       width: 160,
       height: 160,
+      padding: const EdgeInsets.only(top: 15, bottom: 7.5),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
@@ -28,7 +30,7 @@ class Box extends StatelessWidget {
         children: [
           if (needed > 0)
             SizedBox(
-                height: 76,
+                height: 60,
                 child: Text(
                   "$win/$needed",
                   style: const TextStyle(
@@ -39,7 +41,7 @@ class Box extends StatelessWidget {
                 )),
           if (needed == 0)
             SizedBox(
-                height: 76,
+                height: 60,
                 child: Text(
                   win == 0 ? "--" : "$win",
                   style: const TextStyle(
@@ -48,13 +50,27 @@ class Box extends StatelessWidget {
                     color: Colors.blueGrey,
                   ),
                 )),
-          Container(
-            decoration: const BoxDecoration(border: Border()),
-            height: 80,
-            width: double.infinity,
-            child: Image.asset(
-              image,
-              width: 100,
+          GestureDetector(
+            onTap: () {
+              showMaterialModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.transparent,
+                builder: (context) => GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Image.asset("assets/images/Guide.png"),
+                ),
+              );
+            },
+            child: Container(
+              decoration: const BoxDecoration(border: Border()),
+              height: 70,
+              width: double.infinity,
+              child: Image.asset(
+                image,
+                width: 100,
+              ),
             ),
           )
         ],

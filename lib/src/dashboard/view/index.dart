@@ -3,13 +3,13 @@ import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/controller/second.dart';
 import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/dashboard/view/box.dart';
+import 'package:busara/src/dashboard/view/widget/flipcard.dart';
 import 'package:busara/src/dashboard/view/widget/game_row.dart';
 import 'package:busara/src/dashboard/view/widget/resource.dart';
 import 'package:busara/utils/color_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:math';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -257,52 +257,7 @@ class DashboardScreen extends StatelessWidget {
                               listen: true)
                           .getSetup(),
                     ),
-                    if (!gameBoardProvider.starter)
-                      SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: Draggable(
-                          data: GameBoardModel(
-                            state: gameBoardProvider.resource,
-                            position: -1,
-                          ),
-                          child: Resource(data: gameBoardProvider.resource),
-                          childWhenDragging: const SizedBox(
-                            width: 0,
-                            height: 0,
-                          ),
-                          feedback: Resource(data: gameBoardProvider.resource),
-                        ),
-                      ),
-                    if (!gameBoardProvider.starter)
-                      GestureDetector(
-                        onTap: () {
-                          Random random = Random();
-                          int randomNumber = random.nextInt(4);
-                          switch (randomNumber) {
-                            case 1:
-                              gameBoardProvider.setResource("fire");
-                              return;
-                            case 2:
-                              gameBoardProvider.setResource("earth");
-                              return;
-                            case 3:
-                              gameBoardProvider.setResource("wind");
-                              return;
-                            case 4:
-                              gameBoardProvider.setResource("water");
-                              return;
-                            default:
-                              gameBoardProvider.setResource("water");
-                              return;
-                          }
-                        },
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          color: PlatformColorTheme.primaryColor,
-                        ),
-                      ),
+                    if (!gameBoardProvider.starter) const FlipCardWidget(),
                     Container(
                       width: 500,
                       height: 350,

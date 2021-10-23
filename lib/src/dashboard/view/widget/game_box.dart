@@ -31,8 +31,6 @@ class GameBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool win = false;
-    String winVirtue = "";
     final gameBoardProvider =
         Provider.of<GameBoardProvider>(context, listen: false);
 
@@ -153,9 +151,7 @@ class GameBox extends StatelessWidget {
                   state: "",
                 );
                 gameBoardProvider.setBoard(data);
-                // gameBoardProvider.setupResource(false);
-
-                gameBoardProvider.setResource("water");
+                gameBoardProvider.setResource();
               }
             },
             child: Resource(data: data[number].state),

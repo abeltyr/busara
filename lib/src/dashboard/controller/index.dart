@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:busara/models/board_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -89,9 +91,28 @@ class GameBoardProvider with ChangeNotifier {
     return _resource;
   }
 
-  void setResource(String resource) {
-    _resource = resource;
-    notifyListeners();
+  void setResource() {
+    Random random = Random();
+    int randomNumber = random.nextInt(4);
+    setupResource(true);
+    switch (randomNumber) {
+      case 1:
+        _resource = "fire";
+        notifyListeners();
+        return;
+      case 2:
+        _resource = "earth";
+        notifyListeners();
+        return;
+      case 3:
+        _resource = "wind";
+        notifyListeners();
+        return;
+      default:
+        _resource = "water";
+        notifyListeners();
+        return;
+    }
   }
 
   bool get starter {
@@ -106,7 +127,10 @@ class GameBoardProvider with ChangeNotifier {
   void setBoard(List<GameBoardModel> board) {
     _board = board;
     int count = _board.where((element) => element.state.isNotEmpty).length;
-    if (count >= 5 && _starter) _starter = false;
+    if (count >= 5 && _starter) {
+      _starter = false;
+      setResource();
+    }
     notifyListeners();
   }
 
