@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class GameBoardProvider with ChangeNotifier {
   bool _showResource = true;
+  bool _starter = true;
   String _resource = "wind";
   late List<GameBoardModel> _board = [
     GameBoardModel(
@@ -90,6 +91,15 @@ class GameBoardProvider with ChangeNotifier {
 
   void setResource(String resource) {
     _resource = resource;
+    notifyListeners();
+  }
+
+  bool get starter {
+    return _starter;
+  }
+
+  void setStarter() {
+    _starter = false;
     notifyListeners();
   }
 

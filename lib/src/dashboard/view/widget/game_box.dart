@@ -1,29 +1,72 @@
 import 'package:busara/models/board_component.dart';
 import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/view/widget/resource.dart';
-import 'package:busara/utils/color_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class GameBox extends StatelessWidget {
   final double size;
   final int number;
-  GameBox({required this.size, required this.number, Key? key})
+  const GameBox({required this.size, required this.number, Key? key})
       : super(key: key);
 
-  bool show = false;
   @override
   Widget build(BuildContext context) {
     final gameBoardProvider =
         Provider.of<GameBoardProvider>(context, listen: false);
     List<GameBoardModel> data = gameBoardProvider.board;
     return DragTarget(
+      onWillAccept: (Object? value) {
+        GameBoardModel? stateData = value! as GameBoardModel;
+        if (gameBoardProvider.starter &&
+            number - 1 >= 0 &&
+            data[number - 1].state.isNotEmpty) {
+          return false;
+        }
+        if (gameBoardProvider.starter &&
+            number + 1 < data.length &&
+            data[number + 1].state.isNotEmpty &&
+            number != 3 &&
+            number != 7 &&
+            number != 11 &&
+            number != 15) {
+          return false;
+        }
+        if (gameBoardProvider.starter &&
+            number - 4 >= 0 &&
+            data[number - 4].state.isNotEmpty) {
+          return false;
+        }
+        if (gameBoardProvider.starter &&
+            number + 4 < data.length &&
+            data[number + 4].state.isNotEmpty) {
+          return false;
+        }
+        if (stateData.position == -1) return true;
+        if (stateData.position - 1 >= 0 && stateData.position - 1 == number) {
+          return true;
+        }
+        if (stateData.position + 1 < data.length &&
+            stateData.position + 1 == number) {
+          return true;
+        }
+        if (stateData.position - 1 >= 0 && stateData.position - 1 == number) {
+          return true;
+        }
+        if (stateData.position - 4 >= 0 && stateData.position - 4 == number) {
+          return true;
+        }
+        if (stateData.position + 4 < data.length &&
+            stateData.position + 4 == number) {
+          return true;
+        }
+        return false;
+      },
       onAccept: (Object? value) {
-        String? stateData = value as String;
-        print(stateData);
+        GameBoardModel? stateData = value! as GameBoardModel;
         data[number] = GameBoardModel(
           position: number,
-          state: stateData,
+          state: stateData.state,
         );
         gameBoardProvider.setBoard(data);
         // gameBoardProvider.setupResource(false);
@@ -41,7 +84,7 @@ class GameBox extends StatelessWidget {
         );
         if (data[number].state.isNotEmpty) {
           show = Draggable(
-            data: data[number].state,
+            data: data[number],
             onDragEnd: (DraggableDetails dragData) {
               if (dragData.wasAccepted) {
                 data[number] = GameBoardModel(
@@ -67,12 +110,6 @@ class GameBox extends StatelessWidget {
           duration: const Duration(milliseconds: 3000),
           width: (size - 90) / 4,
           height: (size - 90) / 4,
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 2,
-              color: PlatformColorTheme.white,
-            ),
-          ),
           padding: const EdgeInsets.all(50),
           child: show,
         );
