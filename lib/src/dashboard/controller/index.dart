@@ -105,6 +105,8 @@ class GameBoardProvider with ChangeNotifier {
 
   void setBoard(List<GameBoardModel> board) {
     _board = board;
+    int count = _board.where((element) => element.state.isNotEmpty).length;
+    if (count >= 5) _starter = false;
     notifyListeners();
   }
 
