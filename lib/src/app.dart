@@ -11,6 +11,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dashboard/view/index.dart';
 import 'package:provider/provider.dart';
 
+// SORRY FOR ANY ONE WHO IS READING THIS CODE IN THE FUTURE THIS WAS MADE WITH IN 24 HOURS SO
+// THE CODE IS NOT FORMATTED PROPERLY OR IS NOT WELL DOCUMENTS SO GOOD LUCK READING IT.
+
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
   const MyApp({
