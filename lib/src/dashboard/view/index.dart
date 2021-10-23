@@ -1,6 +1,6 @@
 import 'package:busara/models/board_component.dart';
 import 'package:busara/src/dashboard/controller/index.dart';
-import 'package:busara/src/dashboard/view/widget/game_box.dart';
+import 'package:busara/src/dashboard/controller/second.dart';
 import 'package:busara/src/dashboard/view/widget/game_row.dart';
 import 'package:busara/src/dashboard/view/widget/resource.dart';
 import 'package:busara/utils/color_theme.dart';
@@ -22,6 +22,7 @@ class DashboardScreen extends StatelessWidget {
             : MediaQuery.of(context).size.height;
     final gameBoardProvider =
         Provider.of<GameBoardProvider>(context, listen: true);
+
     return Scaffold(
       backgroundColor: PlatformColorTheme.secondaryColor,
       body: Column(
@@ -75,51 +76,222 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              // if (gameBoardProvider.showResource)
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  FutureBuilder(
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const SizedBox(
+                          height: 0,
+                          width: 0,
+                        );
+                      }
+                      List<Map<String, dynamic>> setup =
+                          snapshot.data as List<Map<String, dynamic>>;
 
-              Draggable(
-                data: GameBoardModel(
-                  state: gameBoardProvider.resource,
-                  position: -1,
-                ),
-                child: Resource(data: gameBoardProvider.resource),
-                childWhenDragging: const SizedBox(
-                  width: 0,
-                  height: 0,
-                ),
-                feedback: Resource(data: gameBoardProvider.resource),
-              ),
-              const SizedBox(
-                width: 50,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Random random = Random();
-                  int randomNumber = random.nextInt(4);
-                  switch (randomNumber) {
-                    case 1:
-                      gameBoardProvider.setResource("fire");
-                      return;
-                    case 2:
-                      gameBoardProvider.setResource("earth");
-                      return;
-                    case 3:
-                      gameBoardProvider.setResource("wind");
-                      return;
-                    case 4:
-                      gameBoardProvider.setResource("water");
-                      return;
-                    default:
-                      gameBoardProvider.setResource("water");
-                      return;
-                  }
-                },
-                child: Container(
-                  width: 50,
-                  height: 50,
-                  color: PlatformColorTheme.primaryColor,
-                ),
-              ),
+                      if (setup.where((element) => element["used"]).length <
+                          5) {
+                        return Container(
+                          width: 500,
+                          height: 500,
+                          color: Colors.blueGrey,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  if (!setup[0]["used"])
+                                    Draggable(
+                                      onDragEnd: (DraggableDetails dragData) {
+                                        if (dragData.wasAccepted) {
+                                          setup[0]["used"] = true;
+                                          Provider.of<GameBoardFirstProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .setBoard(setup);
+                                        }
+                                      },
+                                      data: GameBoardModel(
+                                        state: setup[0]["state"],
+                                        position: -1,
+                                      ),
+                                      child: Resource(data: setup[0]["state"]),
+                                      childWhenDragging: const SizedBox(
+                                        width: 0,
+                                        height: 0,
+                                      ),
+                                      feedback:
+                                          Resource(data: setup[0]["state"]),
+                                    ),
+                                  if (!setup[1]["used"])
+                                    Draggable(
+                                      onDragEnd: (DraggableDetails dragData) {
+                                        if (dragData.wasAccepted) {
+                                          setup[1]["used"] = true;
+                                          Provider.of<GameBoardFirstProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .setBoard(setup);
+                                        }
+                                      },
+                                      data: GameBoardModel(
+                                        state: setup[1]["state"],
+                                        position: -1,
+                                      ),
+                                      child: Resource(data: setup[1]["state"]),
+                                      childWhenDragging: const SizedBox(
+                                        width: 0,
+                                        height: 0,
+                                      ),
+                                      feedback:
+                                          Resource(data: setup[1]["state"]),
+                                    ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  if (!setup[2]["used"])
+                                    Draggable(
+                                      onDragEnd: (DraggableDetails dragData) {
+                                        if (dragData.wasAccepted) {
+                                          setup[2]["used"] = true;
+                                          Provider.of<GameBoardFirstProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .setBoard(setup);
+                                        }
+                                      },
+                                      data: GameBoardModel(
+                                        state: setup[2]["state"],
+                                        position: -1,
+                                      ),
+                                      child: Resource(data: setup[2]["state"]),
+                                      childWhenDragging: const SizedBox(
+                                        width: 0,
+                                        height: 0,
+                                      ),
+                                      feedback:
+                                          Resource(data: setup[2]["state"]),
+                                    ),
+                                  if (!setup[3]["used"])
+                                    Draggable(
+                                      onDragEnd: (DraggableDetails dragData) {
+                                        if (dragData.wasAccepted) {
+                                          setup[3]["used"] = true;
+                                          Provider.of<GameBoardFirstProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .setBoard(setup);
+                                        }
+                                      },
+                                      data: GameBoardModel(
+                                        state: setup[3]["state"],
+                                        position: -1,
+                                      ),
+                                      child: Resource(data: setup[3]["state"]),
+                                      childWhenDragging: const SizedBox(
+                                        width: 0,
+                                        height: 0,
+                                      ),
+                                      feedback:
+                                          Resource(data: setup[3]["state"]),
+                                    ),
+                                  if (!setup[4]["used"])
+                                    Draggable(
+                                      onDragEnd: (DraggableDetails dragData) {
+                                        if (dragData.wasAccepted) {
+                                          setup[4]["used"] = true;
+                                          Provider.of<GameBoardFirstProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .setBoard(setup);
+                                        }
+                                      },
+                                      data: GameBoardModel(
+                                        state: setup[4]["state"],
+                                        position: -1,
+                                      ),
+                                      child: Resource(data: setup[4]["state"]),
+                                      childWhenDragging: const SizedBox(
+                                        width: 0,
+                                        height: 0,
+                                      ),
+                                      feedback:
+                                          Resource(data: setup[4]["state"]),
+                                    ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      } else {
+                        return const SizedBox(width: 0, height: 0);
+                      }
+                    },
+                    future: Provider.of<GameBoardFirstProvider>(context,
+                            listen: true)
+                        .getSetup(),
+                  ),
+                  if (!gameBoardProvider.starter)
+                    SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: Draggable(
+                        data: GameBoardModel(
+                          state: gameBoardProvider.resource,
+                          position: -1,
+                        ),
+                        child: Resource(data: gameBoardProvider.resource),
+                        childWhenDragging: const SizedBox(
+                          width: 0,
+                          height: 0,
+                        ),
+                        feedback: Resource(data: gameBoardProvider.resource),
+                      ),
+                    ),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Random random = Random();
+                      int randomNumber = random.nextInt(4);
+                      switch (randomNumber) {
+                        case 1:
+                          gameBoardProvider.setResource("fire");
+                          return;
+                        case 2:
+                          gameBoardProvider.setResource("earth");
+                          return;
+                        case 3:
+                          gameBoardProvider.setResource("wind");
+                          return;
+                        case 4:
+                          gameBoardProvider.setResource("water");
+                          return;
+                        default:
+                          gameBoardProvider.setResource("water");
+                          return;
+                      }
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      color: PlatformColorTheme.primaryColor,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ],

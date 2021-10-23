@@ -1,4 +1,5 @@
 import 'package:busara/src/dashboard/controller/index.dart';
+import 'package:busara/src/dashboard/controller/second.dart';
 import 'package:busara/src/setting/controller/index.dart';
 import 'package:busara/src/setting/view/index.dart';
 import 'package:busara/src/tasks/view/index.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider.value(
               value: GameBoardProvider(),
+            ),
+            ChangeNotifierProvider.value(
+              value: GameBoardFirstProvider(),
             ),
           ],
           child: MaterialApp(
@@ -98,7 +102,7 @@ class MyApp extends StatelessWidget {
                     case TasksScreen.routeName:
                       return const TasksScreen();
                     default:
-                      return const DashboardScreen();
+                      return DashboardScreen();
                   }
                 },
               );
