@@ -1,11 +1,12 @@
 import 'package:busara/models/board_component.dart';
 import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/controller/second.dart';
-import 'package:busara/src/dashboard/controller/wins.dart';
-import 'package:busara/src/dashboard/view/box.dart';
 import 'package:busara/src/dashboard/view/widget/flipcard.dart';
+import 'package:busara/src/dashboard/view/widget/game_board.dart';
 import 'package:busara/src/dashboard/view/widget/game_row.dart';
 import 'package:busara/src/dashboard/view/widget/resource.dart';
+import 'package:busara/src/dashboard/view/widget/starter_board.dart';
+import 'package:busara/src/dashboard/view/widget/status_board.dart';
 import 'package:busara/utils/color_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +19,8 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double size =
-        MediaQuery.of(context).size.width < MediaQuery.of(context).size.height
-            ? MediaQuery.of(context).size.width
-            : MediaQuery.of(context).size.height;
     final gameBoardProvider =
         Provider.of<GameBoardProvider>(context, listen: true);
-    final userWinsProvider =
-        Provider.of<UserWinsProvider>(context, listen: true);
 
     return Scaffold(
       backgroundColor: PlatformColorTheme.secondaryColor,
@@ -35,289 +30,15 @@ class DashboardScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    // margin: const EdgeInsets.all(25),
-                    width: size - 50,
-                    height: size - 50,
-                    color: PlatformColorTheme.primaryColor,
-                    child: Image.asset(
-                      "assets/images/boarder.png",
-                    ),
-                  ),
-                  Container(
-                    // margin: const EdgeInsets.all(20),
-                    width: size - 50,
-                    height: size - 50,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        GameRow(
-                          size: size,
-                          position: 0,
-                        ),
-                        GameRow(
-                          size: size,
-                          position: 4,
-                        ),
-                        GameRow(
-                          size: size,
-                          position: 8,
-                        ),
-                        GameRow(
-                          size: size,
-                          position: 12,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              const GameBoard(),
               SizedBox(
                 height: MediaQuery.of(context).size.height - 50,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    FutureBuilder(
-                      builder: (context, snapshot) {
-                        if (snapshot.data == null) {
-                          return const SizedBox(
-                            height: 0,
-                            width: 0,
-                          );
-                        }
-                        List<Map<String, dynamic>> setup =
-                            snapshot.data as List<Map<String, dynamic>>;
-
-                        if (setup.where((element) => element["used"]).length <
-                            5) {
-                          return Container(
-                            width: 500,
-                            height: 300,
-                            margin: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              color: Colors.blueGrey,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    if (!setup[0]["used"])
-                                      Draggable(
-                                        onDragEnd: (DraggableDetails dragData) {
-                                          if (dragData.wasAccepted) {
-                                            setup[0]["used"] = true;
-                                            Provider.of<GameBoardFirstProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .setBoard(setup);
-                                          }
-                                        },
-                                        data: GameBoardModel(
-                                          state: setup[0]["state"],
-                                          position: -1,
-                                        ),
-                                        child:
-                                            Resource(data: setup[0]["state"]),
-                                        childWhenDragging: const SizedBox(
-                                          width: 0,
-                                          height: 0,
-                                        ),
-                                        feedback:
-                                            Resource(data: setup[0]["state"]),
-                                      ),
-                                    if (!setup[1]["used"])
-                                      Draggable(
-                                        onDragEnd: (DraggableDetails dragData) {
-                                          if (dragData.wasAccepted) {
-                                            setup[1]["used"] = true;
-                                            Provider.of<GameBoardFirstProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .setBoard(setup);
-                                          }
-                                        },
-                                        data: GameBoardModel(
-                                          state: setup[1]["state"],
-                                          position: -1,
-                                        ),
-                                        child:
-                                            Resource(data: setup[1]["state"]),
-                                        childWhenDragging: const SizedBox(
-                                          width: 0,
-                                          height: 0,
-                                        ),
-                                        feedback:
-                                            Resource(data: setup[1]["state"]),
-                                      ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    if (!setup[2]["used"])
-                                      Draggable(
-                                        onDragEnd: (DraggableDetails dragData) {
-                                          if (dragData.wasAccepted) {
-                                            setup[2]["used"] = true;
-                                            Provider.of<GameBoardFirstProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .setBoard(setup);
-                                          }
-                                        },
-                                        data: GameBoardModel(
-                                          state: setup[2]["state"],
-                                          position: -1,
-                                        ),
-                                        child:
-                                            Resource(data: setup[2]["state"]),
-                                        childWhenDragging: const SizedBox(
-                                          width: 0,
-                                          height: 0,
-                                        ),
-                                        feedback:
-                                            Resource(data: setup[2]["state"]),
-                                      ),
-                                    if (!setup[3]["used"])
-                                      Draggable(
-                                        onDragEnd: (DraggableDetails dragData) {
-                                          if (dragData.wasAccepted) {
-                                            setup[3]["used"] = true;
-                                            Provider.of<GameBoardFirstProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .setBoard(setup);
-                                          }
-                                        },
-                                        data: GameBoardModel(
-                                          state: setup[3]["state"],
-                                          position: -1,
-                                        ),
-                                        child:
-                                            Resource(data: setup[3]["state"]),
-                                        childWhenDragging: const SizedBox(
-                                          width: 0,
-                                          height: 0,
-                                        ),
-                                        feedback:
-                                            Resource(data: setup[3]["state"]),
-                                      ),
-                                    if (!setup[4]["used"])
-                                      Draggable(
-                                        onDragEnd: (DraggableDetails dragData) {
-                                          if (dragData.wasAccepted) {
-                                            setup[4]["used"] = true;
-                                            Provider.of<GameBoardFirstProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .setBoard(setup);
-                                          }
-                                        },
-                                        data: GameBoardModel(
-                                          state: setup[4]["state"],
-                                          position: -1,
-                                        ),
-                                        child:
-                                            Resource(data: setup[4]["state"]),
-                                        childWhenDragging: const SizedBox(
-                                          width: 0,
-                                          height: 0,
-                                        ),
-                                        feedback:
-                                            Resource(data: setup[4]["state"]),
-                                      ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          );
-                        } else {
-                          return const SizedBox(width: 0, height: 0);
-                        }
-                      },
-                      future: Provider.of<GameBoardFirstProvider>(context,
-                              listen: true)
-                          .getSetup(),
-                    ),
+                    const StarterBoard(),
                     if (!gameBoardProvider.starter) const FlipCardWidget(),
-                    Container(
-                      width: 500,
-                      height: 350,
-                      margin: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Box(
-                                image: "assets/images/Art.png",
-                                win: userWinsProvider.userWins.art,
-                                needed: userWinsProvider.userRequired.art,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Box(
-                                image: "assets/images/Energy.png",
-                                win: userWinsProvider.userWins.energy,
-                                needed: userWinsProvider.userRequired.energy,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Box(
-                                image: "assets/images/Security.png",
-                                win: userWinsProvider.userWins.security,
-                                needed: userWinsProvider.userRequired.security,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Box(
-                                image: "assets/images/Wisdom.png",
-                                win: userWinsProvider.userWins.wisdom,
-                                needed: userWinsProvider.userRequired.wisdom,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Box(
-                                image: "assets/images/Nature.png",
-                                win: userWinsProvider.userWins.nature,
-                                needed: userWinsProvider.userRequired.nature,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Box(
-                                image: "assets/images/Economy.png",
-                                win: userWinsProvider.userWins.economy,
-                                needed: userWinsProvider.userRequired.economy,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
+                    const StatusBoard()
                   ],
                 ),
               ),
