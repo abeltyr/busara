@@ -32,105 +32,164 @@ class GameBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameBoardProvider =
-        Provider.of<GameBoardProvider>(context, listen: false);
+        Provider.of<GameBoardProvider>(context, listen: true);
+    final userWinsProvider =
+        Provider.of<UserWinsProvider>(context, listen: false);
 
     List<GameBoardModel> data = gameBoardProvider.board;
+
+    bool startMove(GameBoardModel stateData) {
+      if (number - 1 >= 0 &&
+          data[number - 1].state.isNotEmpty &&
+          number != 0 &&
+          number != 4 &&
+          number != 8 &&
+          number != 12) {
+        return false;
+      }
+      if (number + 1 < data.length &&
+          data[number + 1].state.isNotEmpty &&
+          number != 3 &&
+          number != 7 &&
+          number != 11 &&
+          number != 15) {
+        return false;
+      }
+      if (number - 4 >= 0 && data[number - 4].state.isNotEmpty) {
+        return false;
+      }
+      if (number + 4 < data.length && data[number + 4].state.isNotEmpty) {
+        return false;
+      }
+      if (stateData.position != -1) return false;
+      return true;
+    }
+
+    bool movement(GameBoardModel stateData) {
+      if (userWinsProvider.winList.isNotEmpty) {
+        if (stateData.position - 1 >= 0 &&
+            stateData.position - 1 == number &&
+            data[number].state.isNotEmpty) {
+          return true;
+        }
+        if (stateData.position + 1 < data.length &&
+            stateData.position + 1 == number &&
+            data[number].state.isNotEmpty) {
+          return true;
+        }
+        if (stateData.position - 1 >= 0 &&
+            stateData.position - 1 == number &&
+            data[number].state.isNotEmpty) {
+          return true;
+        }
+        if (stateData.position - 4 >= 0 &&
+            stateData.position - 4 == number &&
+            data[number].state.isNotEmpty) {
+          return true;
+        }
+        if (stateData.position + 4 < data.length &&
+            stateData.position + 4 == number &&
+            data[number].state.isNotEmpty) {
+          return true;
+        }
+        return false;
+      }
+      if (stateData.position - 1 >= 0 && stateData.position - 1 == number) {
+        return true;
+      }
+      if (stateData.position + 1 < data.length &&
+          stateData.position + 1 == number) {
+        return true;
+      }
+      if (stateData.position - 1 >= 0 && stateData.position - 1 == number) {
+        return true;
+      }
+      if (stateData.position - 4 >= 0 && stateData.position - 4 == number) {
+        return true;
+      }
+      if (stateData.position + 4 < data.length &&
+          stateData.position + 4 == number) {
+        return true;
+      }
+      return false;
+    }
+
+    void winMovement(GameBoardModel stateData) async {
+      String res = forging(stateData.state, data[number].state);
+      String res1 = forging(
+        data[number].state,
+        stateData.state,
+      );
+      String virtue = "";
+      if (res == res1 || res.isNotEmpty) {
+        virtue = res;
+      } else if (res.isEmpty && res1.isNotEmpty) {
+        virtue = res1;
+      }
+      var newData = await gameBoardProvider.setBoard(
+        updateState: data[number].state,
+        oldNumber: stateData.position,
+        newNumber: number,
+      );
+      if (userWinsProvider.winList.isNotEmpty ||
+          (number - 1 >= 0 &&
+              newData[number - 1].state.isNotEmpty &&
+              newData[number - 1].state != newData[number].state) ||
+          (number + 1 < newData.length &&
+              newData[number + 1].state.isNotEmpty &&
+              newData[number + 1].state != newData[number].state) ||
+          (number - 4 >= 0 &&
+              newData[number - 4].state.isNotEmpty &&
+              newData[number - 4].state != newData[number].state) ||
+          (number + 4 < newData.length &&
+              newData[number + 4].state.isNotEmpty &&
+              newData[number + 4].state != newData[number].state)) {
+        userWinsProvider.addToList(virtue);
+      } else {
+        userWinsProvider.updateUserWin(virtue);
+      }
+    }
+
     return DragTarget(
       onWillAccept: (Object? value) {
         GameBoardModel? stateData = value! as GameBoardModel;
         //Rule for the first 5 pc of the resource
         if (gameBoardProvider.starter) {
-          //This works
-          if (number - 1 >= 0 &&
-              data[number - 1].state.isNotEmpty &&
-              number != 0 &&
-              number != 4 &&
-              number != 8 &&
-              number != 12) {
-            return false;
-          }
-          //This works
-          if (number + 1 < data.length &&
-              data[number + 1].state.isNotEmpty &&
-              number != 3 &&
-              number != 7 &&
-              number != 11 &&
-              number != 15) {
-            return false;
-          }
-          if (number - 4 >= 0 && data[number - 4].state.isNotEmpty) {
-            return false;
-          }
-          if (number + 4 < data.length && data[number + 4].state.isNotEmpty) {
-            return false;
-          }
-          if (stateData.position != -1) return false;
+          bool res = startMove(stateData);
+          if (!res) return res;
         }
-        //Rule for the resource drawn
 
         //Rule for the overlaying a resource with a secondary resource
-        if (data[number].state.isNotEmpty) {
-          if (stateData.position == -1) {
-            return false;
-          }
+        if (data[number].state.isNotEmpty && stateData.position == -1) {
+          return false;
         }
+
+        if (data[number].state.isNotEmpty &&
+            stateData.state == data[number].state) {
+          return false;
+        }
+
+        //Rule for the resource drawn
         if (stateData.position == -1) return true;
 
         //Rule for the movement of resource found inside the board so that it can only move
         // up, down, left, right
-        if (stateData.position - 1 >= 0 && stateData.position - 1 == number) {
-          return true;
-        }
-        if (stateData.position + 1 < data.length &&
-            stateData.position + 1 == number) {
-          return true;
-        }
-        if (stateData.position - 1 >= 0 && stateData.position - 1 == number) {
-          return true;
-        }
-        if (stateData.position - 4 >= 0 && stateData.position - 4 == number) {
-          return true;
-        }
-        if (stateData.position + 4 < data.length &&
-            stateData.position + 4 == number) {
-          return true;
-        }
-        return false;
+        bool res2 = movement(stateData);
+
+        return res2;
       },
       onAccept: (Object? value) {
         GameBoardModel? stateData = value! as GameBoardModel;
-        //Rule for the overlaying a resource with a secondary resource
+        // Rule for the overlaying a resource with a secondary resource
         if (data[number].state.isNotEmpty) {
-          String res = forging(stateData.state, data[number].state);
-          String res1 = forging(
-            data[number].state,
-            stateData.state,
+          winMovement(stateData);
+        } else {
+          gameBoardProvider.setBoard(
+            updateState: stateData.state,
+            oldNumber: stateData.position,
+            newNumber: number,
           );
-          if (res == res1 || res.isNotEmpty) {
-            Provider.of<UserWinsProvider>(context, listen: false)
-                .updateUserWin(res);
-            data[number] = GameBoardModel(
-              position: number,
-              state: "",
-            );
-            gameBoardProvider.setBoard(data);
-          } else if (res.isEmpty && res1.isNotEmpty) {
-            Provider.of<UserWinsProvider>(context, listen: false)
-                .updateUserWin(res1);
-            data[number] = GameBoardModel(
-              position: number,
-              state: "",
-            );
-            gameBoardProvider.setBoard(data);
-          }
         }
-
-        data[number] = GameBoardModel(
-          position: number,
-          state: stateData.state,
-        );
-        gameBoardProvider.setBoard(data);
-        // gameBoardProvider.setupResource(false);
       },
       builder: (
         BuildContext context,
@@ -146,11 +205,8 @@ class GameBox extends StatelessWidget {
             data: data[number],
             onDragEnd: (DraggableDetails dragData) {
               if (dragData.wasAccepted) {
-                data[number] = GameBoardModel(
-                  position: number,
-                  state: "",
-                );
-                gameBoardProvider.setBoard(data);
+                gameBoardProvider.setBoard(
+                    newNumber: -1, oldNumber: number, updateState: "");
                 gameBoardProvider.setResource();
               }
             },

@@ -8,7 +8,7 @@ class GameBoardProvider with ChangeNotifier {
   bool _showResource = true;
   bool _starter = true;
   String _resource = "wind";
-  late List<GameBoardModel> _board = [
+  late final List<GameBoardModel> _board = [
     GameBoardModel(
       position: 0,
       state: "",
@@ -124,14 +124,19 @@ class GameBoardProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setBoard(List<GameBoardModel> board) {
-    _board = board;
+  Future<List<GameBoardModel>> setBoard(
+      {required String updateState,
+      required int oldNumber,
+      required int newNumber}) async {
+    if (newNumber >= 0) _board[newNumber].state = updateState;
+    if (oldNumber >= 0) _board[oldNumber].state = "";
     int count = _board.where((element) => element.state.isNotEmpty).length;
     if (count >= 5 && _starter) {
       _starter = false;
       setResource();
     }
     notifyListeners();
+    return _board;
   }
 
   void setupResource(bool data) {

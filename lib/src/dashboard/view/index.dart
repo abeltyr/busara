@@ -1,12 +1,10 @@
-import 'package:busara/models/board_component.dart';
 import 'package:busara/src/dashboard/controller/index.dart';
-import 'package:busara/src/dashboard/controller/second.dart';
+import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/dashboard/view/widget/flipcard.dart';
 import 'package:busara/src/dashboard/view/widget/game_board.dart';
-import 'package:busara/src/dashboard/view/widget/game_row.dart';
-import 'package:busara/src/dashboard/view/widget/resource.dart';
 import 'package:busara/src/dashboard/view/widget/starter_board.dart';
 import 'package:busara/src/dashboard/view/widget/status_board.dart';
+import 'package:busara/src/dashboard/view/widget/win_list.dart';
 import 'package:busara/utils/color_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +17,6 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final gameBoardProvider =
-        Provider.of<GameBoardProvider>(context, listen: true);
-
     return Scaffold(
       backgroundColor: PlatformColorTheme.secondaryColor,
       body: Column(
@@ -37,7 +32,14 @@ class DashboardScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const StarterBoard(),
-                    if (!gameBoardProvider.starter) const FlipCardWidget(),
+                    // if (!gameBoardProvider.starter)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: const <Widget>[
+                        WinList(),
+                        FlipCardWidget(),
+                      ],
+                    ),
                     const StatusBoard()
                   ],
                 ),

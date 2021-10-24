@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class UserWinsProvider with ChangeNotifier {
   WinModal _userWins = WinModal();
+  List<String> _winList = [];
   WinModal _userRequired = WinModal(
     art: 2,
     economy: 4,
@@ -11,6 +12,8 @@ class UserWinsProvider with ChangeNotifier {
   );
 
   WinModal get userWins => _userWins;
+
+  List<String> get winList => _winList;
 
   WinModal get userRequired => _userRequired;
 
@@ -35,6 +38,16 @@ class UserWinsProvider with ChangeNotifier {
 
   setupWin(WinModal data) {
     _userRequired = data;
+    notifyListeners();
+  }
+
+  addToList(String data) {
+    _winList.add(data);
+    notifyListeners();
+  }
+
+  resetWin() {
+    _winList = [];
     notifyListeners();
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:busara/models/board_component.dart';
 import 'package:busara/src/dashboard/controller/index.dart';
+import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/dashboard/view/widget/resource.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
@@ -48,90 +49,97 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
   Widget build(BuildContext context) {
     final gameBoardProvider =
         Provider.of<GameBoardProvider>(context, listen: true);
-    return FlipCard(
-      fill: Fill.fillBack,
-      flipOnTouch: false,
-      controller: _controller,
-      onFlip: () {},
-      direction: FlipDirection.HORIZONTAL, // default
-      front: display(
-        rotate: true,
-        childData: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                "assets/images/Back.png",
-                fit: BoxFit.fill,
-              ),
-            ),
-            const Positioned(
-              left: 1,
-              right: 1,
-              bottom: 165,
-              child: Text(
-                "BUSARA",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.w900,
+    if (!gameBoardProvider.starter) {
+      return FlipCard(
+        fill: Fill.fillBack,
+        flipOnTouch: false,
+        controller: _controller,
+        onFlip: () {},
+        direction: FlipDirection.HORIZONTAL, // default
+        front: display(
+          rotate: true,
+          childData: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  "assets/images/Back.png",
+                  fit: BoxFit.fill,
                 ),
               ),
-            )
-          ],
+              const Positioned(
+                left: 1,
+                right: 1,
+                bottom: 165,
+                child: Text(
+                  "BUSARA",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-      back: display(
-        rotate: false,
-        childData: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                "assets/images/Back.png",
-                fit: BoxFit.fill,
+        back: display(
+          rotate: false,
+          childData: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  "assets/images/Back.png",
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-            if (gameBoardProvider.showResource)
-              Positioned(
-                left: 75,
-                right: 75,
-                top: 105,
-                child: SizedBox(
-                  width: 150,
-                  height: 150,
-                  child: Draggable(
-                    onDragEnd: (DraggableDetails dragData) {
-                      if (dragData.wasAccepted) {
-                        _controller.toggleCard();
-                        gameBoardProvider.setupResource(false);
-                        Timer(const Duration(milliseconds: 1000), () {
-                          gameBoardProvider.setResource();
-                        });
-                      }
-                    },
-                    data: GameBoardModel(
-                      state: gameBoardProvider.resource,
-                      position: -1,
-                    ),
-                    child: Resource(data: gameBoardProvider.resource),
-                    childWhenDragging: const SizedBox(
-                      width: 0,
-                      height: 0,
-                    ),
-                    feedback: SizedBox(
-                      width: 125,
-                      height: 125,
-                      child: Resource(
-                        data: gameBoardProvider.resource,
+              if (gameBoardProvider.showResource)
+                Positioned(
+                  left: 75,
+                  right: 75,
+                  top: 105,
+                  child: SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: Draggable(
+                      onDragEnd: (DraggableDetails dragData) {
+                        if (dragData.wasAccepted) {
+                          _controller.toggleCard();
+                          gameBoardProvider.setupResource(false);
+                          Timer(const Duration(milliseconds: 1000), () {
+                            gameBoardProvider.setResource();
+                          });
+                        }
+                      },
+                      data: GameBoardModel(
+                        state: gameBoardProvider.resource,
+                        position: -1,
+                      ),
+                      child: Resource(data: gameBoardProvider.resource),
+                      childWhenDragging: const SizedBox(
+                        width: 0,
+                        height: 0,
+                      ),
+                      feedback: SizedBox(
+                        width: 125,
+                        height: 125,
+                        child: Resource(
+                          data: gameBoardProvider.resource,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return const SizedBox(
+        width: 0,
+        height: 0,
+      );
+    }
   }
 }
