@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class UserWinsProvider with ChangeNotifier {
   WinModal _userWins = WinModal();
+  int _lastIndex = -1;
   List<String> _winList = [];
   WinModal _userRequired = WinModal(
     art: 2,
@@ -14,6 +15,8 @@ class UserWinsProvider with ChangeNotifier {
   WinModal get userWins => _userWins;
 
   List<String> get winList => _winList;
+
+  int get lastIndex => _lastIndex;
 
   WinModal get userRequired => _userRequired;
 
@@ -43,6 +46,11 @@ class UserWinsProvider with ChangeNotifier {
 
   addToList(String data) {
     _winList.add(data);
+    notifyListeners();
+  }
+
+  updateIndex(int index) {
+    _lastIndex = index;
     notifyListeners();
   }
 

@@ -145,8 +145,14 @@ class GameBox extends StatelessWidget {
               newData[number + 4].state.isNotEmpty &&
               newData[number + 4].state != newData[number].state)) {
         userWinsProvider.addToList(virtue);
+        userWinsProvider.updateIndex(number);
       } else {
         userWinsProvider.updateUserWin(virtue);
+        await gameBoardProvider.setBoard(
+          updateState: "",
+          oldNumber: number,
+          newNumber: -1,
+        );
       }
     }
 
