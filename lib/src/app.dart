@@ -1,9 +1,9 @@
 import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/controller/second.dart';
 import 'package:busara/src/dashboard/controller/wins.dart';
+import 'package:busara/src/gameOver/view/index.dart';
 import 'package:busara/src/setting/controller/index.dart';
-import 'package:busara/src/setting/view/index.dart';
-import 'package:busara/src/tasks/view/index.dart';
+import 'package:busara/src/starterScreen/view/index.dart';
 import 'package:busara/utils/color_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -104,12 +104,13 @@ class MyApp extends StatelessWidget {
                 settings: routeSettings,
                 builder: (BuildContext context) {
                   switch (routeSettings.name) {
-                    case SettingsView.routeName:
-                      return SettingsView(controller: settingsController);
-                    case TasksScreen.routeName:
-                      return const TasksScreen();
-                    default:
+                    case DashboardScreen.routeName:
                       return const DashboardScreen();
+                    case GameOver.routeName:
+                      return const GameOver();
+
+                    default:
+                      return const StarterScreen();
                   }
                 },
               );

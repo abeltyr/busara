@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
-  static const routeName = '/';
+  static const routeName = '/game';
 
   @override
   Widget build(BuildContext context) {

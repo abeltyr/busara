@@ -1,3 +1,4 @@
+import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ class WinList extends StatelessWidget {
   Widget build(BuildContext context) {
     final userWinsProvider =
         Provider.of<UserWinsProvider>(context, listen: true);
+    final gameBoardProvider =
+        Provider.of<GameBoardProvider>(context, listen: false);
     if (userWinsProvider.winList.isNotEmpty) {
       return Container(
         width: 120,
@@ -22,7 +25,7 @@ class WinList extends StatelessWidget {
           border: Border.all(color: Colors.blueGrey, width: 3),
           borderRadius: BorderRadius.circular(15),
         ),
-        child: Column(
+        child: ListView(
           children: [
             SizedBox(
               height: 315,
@@ -63,6 +66,12 @@ class WinList extends StatelessWidget {
                   userWinsProvider.updateUserWin(data);
                 }
                 userWinsProvider.resetWin();
+                gameBoardProvider.setBoard(
+                  updateState: "",
+                  oldNumber: userWinsProvider.lastIndex,
+                  newNumber: -1,
+                  context: context,
+                );
               },
               child: Container(
                 padding: const EdgeInsets.all(5),

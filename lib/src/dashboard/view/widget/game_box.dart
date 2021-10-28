@@ -130,6 +130,7 @@ class GameBox extends StatelessWidget {
         updateState: data[number].state,
         oldNumber: stateData.position,
         newNumber: number,
+        context: context,
       );
       if (userWinsProvider.winList.isNotEmpty ||
           (number - 1 >= 0 &&
@@ -152,6 +153,7 @@ class GameBox extends StatelessWidget {
           updateState: "",
           oldNumber: number,
           newNumber: -1,
+          context: context,
         );
       }
     }
@@ -194,6 +196,7 @@ class GameBox extends StatelessWidget {
             updateState: stateData.state,
             oldNumber: stateData.position,
             newNumber: number,
+            context: context,
           );
         }
       },
@@ -212,7 +215,11 @@ class GameBox extends StatelessWidget {
             onDragEnd: (DraggableDetails dragData) {
               if (dragData.wasAccepted) {
                 gameBoardProvider.setBoard(
-                    newNumber: -1, oldNumber: number, updateState: "");
+                  newNumber: -1,
+                  oldNumber: number,
+                  updateState: "",
+                  context: context,
+                );
                 gameBoardProvider.setResource();
               }
             },
