@@ -5,6 +5,7 @@ import 'package:busara/src/gameOver/view/index.dart';
 import 'package:busara/src/setting/controller/index.dart';
 import 'package:busara/src/starterScreen/view/index.dart';
 import 'package:busara/utils/color_theme.dart';
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,7 +17,7 @@ import 'package:provider/provider.dart';
 // THE CODE IS NOT FORMATTED PROPERLY OR IS NOT WELL DOCUMENTS SO GOOD LUCK READING IT.
 
 /// The Widget that configures your application.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({
     Key? key,
     required this.settingsController,
@@ -25,13 +26,30 @@ class MyApp extends StatelessWidget {
   final SettingsController settingsController;
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    testWindowFunctions();
+  }
+
+  Future testWindowFunctions() async {
+    await DesktopWindow.resetMaxWindowSize();
+    await DesktopWindow.toggleFullScreen();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Glue the SettingsController to the MaterialApp.
     //
     // The AnimatedBuilder Widget listens to the SettingsController for changes.
     // Whenever the user updates their settings, the MaterialApp is rebuilt.
     return AnimatedBuilder(
-      animation: settingsController,
+      animation: widget.settingsController,
       builder: (BuildContext context, Widget? child) {
         return MultiProvider(
           providers: [
