@@ -1,3 +1,4 @@
+import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,11 @@ class WinList extends StatelessWidget {
                   userWinsProvider.updateUserWin(data);
                 }
                 userWinsProvider.resetWin();
+
+                Provider.of<GameBoardProvider>(context, listen: false).setBoard(
+                    newNumber: -1,
+                    oldNumber: userWinsProvider.lastIndex,
+                    updateState: "");
               },
               child: Container(
                 padding: const EdgeInsets.all(5),
