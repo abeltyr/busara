@@ -1,5 +1,7 @@
+import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/dashboard/view/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StarterScreen extends StatelessWidget {
   const StarterScreen({Key? key}) : super(key: key);
@@ -41,6 +43,8 @@ class StarterScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, DashboardScreen.routeName);
+                      Provider.of<UserWinsProvider>(context, listen: false)
+                          .generate();
                     },
                     child: Container(
                       width: 150,

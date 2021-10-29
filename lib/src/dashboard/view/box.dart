@@ -6,23 +6,25 @@ class Box extends StatelessWidget {
   final int win;
   final int needed;
   final String image;
+  final Color colorData;
   const Box(
       {this.win = 0,
       this.needed = 0,
       this.image = "assets/images/Art.png",
+      this.colorData = const Color(0xFF773478),
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160,
-      height: 160,
+      width: 127.5,
+      height: 127.5,
       padding: const EdgeInsets.only(top: 15, bottom: 7.5),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
-            color: Colors.blueGrey,
+            color: colorData,
             width: 2,
           )),
       child: Column(
@@ -30,24 +32,24 @@ class Box extends StatelessWidget {
         children: [
           if (needed > 0)
             SizedBox(
-                height: 60,
+                height: 40,
                 child: Text(
                   "$win/$needed",
-                  style: const TextStyle(
-                    fontSize: 40,
+                  style: TextStyle(
+                    fontSize: 25,
                     fontStyle: FontStyle.italic,
-                    color: Colors.blueGrey,
+                    color: colorData,
                   ),
                 )),
           if (needed == 0)
             SizedBox(
-                height: 60,
+                height: 40,
                 child: Text(
                   win == 0 ? "--" : "$win",
-                  style: const TextStyle(
-                    fontSize: 40,
+                  style: TextStyle(
+                    fontSize: 25,
                     fontStyle: FontStyle.italic,
-                    color: Colors.blueGrey,
+                    color: colorData,
                   ),
                 )),
           GestureDetector(
@@ -65,11 +67,11 @@ class Box extends StatelessWidget {
             },
             child: Container(
               decoration: const BoxDecoration(border: Border()),
-              height: 70,
+              height: 50,
               width: double.infinity,
               child: Image.asset(
                 image,
-                width: 100,
+                width: 80,
               ),
             ),
           )

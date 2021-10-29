@@ -3,6 +3,7 @@ import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/dashboard/view/widget/resource.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class GameBox extends StatelessWidget {
@@ -232,11 +233,13 @@ class GameBox extends StatelessWidget {
           );
         }
 
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 3000),
+        return Container(
           width: (size - 90) / 4,
-          height: (size - 90) / 4,
-          padding: const EdgeInsets.all(50),
+          height: (size - 120) / 4,
+          margin: const EdgeInsets.only(bottom: 3, top: 3),
+          // decoration:
+          //     BoxDecoration(border: Border.all(width: 1, color: Colors.indigo)),
+          padding: EdgeInsets.all(((size - 90) / 20)),
           child: show,
         );
       },

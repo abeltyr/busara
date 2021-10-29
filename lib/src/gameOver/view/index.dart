@@ -1,5 +1,6 @@
 import 'package:busara/src/dashboard/controller/index.dart';
 import 'package:busara/src/dashboard/controller/second.dart';
+import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/dashboard/view/index.dart';
 import 'package:busara/src/dashboard/view/widget/status_board.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,8 @@ class GameOver extends StatelessWidget {
                       Provider.of<GameBoardFirstProvider>(context,
                               listen: false)
                           .getSetup(restart: true);
+                      Provider.of<UserWinsProvider>(context, listen: false)
+                          .generate();
                     },
                     child: Container(
                       width: 150,

@@ -32,12 +32,8 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
         if (rotate) _controller.toggleCard();
       },
       child: Container(
-        width: 300,
-        height: 360,
-        // padding: ,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.blueGrey,
           borderRadius: BorderRadius.circular(15),
         ),
         child: childData,
@@ -60,17 +56,21 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
           rotate: true,
           childData: Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
-                  "assets/images/Back.png",
-                  fit: BoxFit.fill,
+              SizedBox(
+                width: double.infinity,
+                height: 250,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.asset(
+                    "assets/images/Back.png",
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
               ),
               const Positioned(
                 left: 1,
                 right: 1,
-                bottom: 165,
+                top: 100,
                 child: Text(
                   "BUSARA",
                   textAlign: TextAlign.center,
@@ -85,53 +85,62 @@ class _FlipCardWidgetState extends State<FlipCardWidget> {
         ),
         back: display(
           rotate: false,
-          childData: Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
-                  "assets/images/Back.png",
-                  fit: BoxFit.fill,
+          childData: SizedBox(
+            width: 300,
+            height: 250,
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 250,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset(
+                      "assets/images/Back.png",
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
                 ),
-              ),
-              if (gameBoardProvider.showResource)
-                Positioned(
-                  left: 75,
-                  right: 75,
-                  top: 105,
-                  child: SizedBox(
-                    width: 150,
-                    height: 150,
-                    child: Draggable(
-                      onDragEnd: (DraggableDetails dragData) {
-                        if (dragData.wasAccepted) {
-                          _controller.toggleCard();
-                          gameBoardProvider.setupResource(false);
-                          Timer(const Duration(milliseconds: 1000), () {
-                            gameBoardProvider.setResource();
-                          });
-                        }
-                      },
-                      data: GameBoardModel(
-                        state: gameBoardProvider.resource,
-                        position: -1,
-                      ),
-                      child: Resource(data: gameBoardProvider.resource),
-                      childWhenDragging: const SizedBox(
-                        width: 0,
-                        height: 0,
-                      ),
-                      feedback: SizedBox(
-                        width: 125,
-                        height: 125,
-                        child: Resource(
-                          data: gameBoardProvider.resource,
+                if (gameBoardProvider.showResource)
+                  Positioned(
+                    left: 75,
+                    right: 75,
+                    top: 50,
+                    bottom: 50,
+                    child: SizedBox(
+                      width: 125,
+                      height: 125,
+                      child: Draggable(
+                        onDragEnd: (DraggableDetails dragData) {
+                          if (dragData.wasAccepted) {
+                            _controller.toggleCard();
+                            gameBoardProvider.setupResource(false);
+                            Timer(const Duration(milliseconds: 1000), () {
+                              gameBoardProvider.setResource();
+                            });
+                          }
+                        },
+                        data: GameBoardModel(
+                          state: gameBoardProvider.resource,
+                          position: -1,
+                        ),
+                        child: Resource(data: gameBoardProvider.resource),
+                        childWhenDragging: const SizedBox(
+                          width: 0,
+                          height: 0,
+                        ),
+                        feedback: SizedBox(
+                          width: 125,
+                          height: 125,
+                          child: Resource(
+                            data: gameBoardProvider.resource,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       );

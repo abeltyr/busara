@@ -5,6 +5,7 @@ class WinModal {
   int energy;
   int economy;
   int nature;
+  String image;
 
   WinModal({
     this.art = 0,
@@ -13,5 +14,6 @@ class WinModal {
     this.energy = 0,
     this.economy = 0,
     this.nature = 0,
+    this.image = "assets/images/kingdom/1.png",
   });
 }

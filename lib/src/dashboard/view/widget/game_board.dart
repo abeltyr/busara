@@ -1,32 +1,36 @@
 import 'package:busara/src/dashboard/view/widget/game_row.dart';
-import 'package:busara/utils/color_theme.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class GameBoard extends StatelessWidget {
-  const GameBoard({Key? key}) : super(key: key);
+  final double size;
+  const GameBoard({required this.size, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // ignore: todo
     // TODO: The box division based on the image is done poorly it won't scale properly with the screen change so it need change
 
-    final double size =
-        MediaQuery.of(context).size.width < MediaQuery.of(context).size.height
-            ? MediaQuery.of(context).size.width
-            : MediaQuery.of(context).size.height;
     return Stack(
       children: [
         Container(
           width: size - 50,
           height: size - 50,
-          color: PlatformColorTheme.primaryColor,
-          child: Image.asset(
-            "assets/images/boarder.png",
+          margin: const EdgeInsets.symmetric(vertical: 25),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(45),
+            child: Image.asset(
+              "assets/images/boarder.png",
+            ),
           ),
         ),
         Container(
           width: size - 50,
           height: size - 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(45),
+          ),
+          margin: const EdgeInsets.symmetric(vertical: 25),
           padding: const EdgeInsets.symmetric(
             horizontal: 20,
           ),
