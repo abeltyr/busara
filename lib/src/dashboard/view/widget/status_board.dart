@@ -10,65 +10,62 @@ class StatusBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final userWinsProvider =
         Provider.of<UserWinsProvider>(context, listen: true);
-    return Container(
-      width: 500,
-      height: 350,
-      margin: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Box(
-                image: "assets/images/Art.png",
-                win: userWinsProvider.userWins.art,
-                needed: userWinsProvider.userRequired.art,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Box(
-                image: "assets/images/Energy.png",
-                win: userWinsProvider.userWins.energy,
-                needed: userWinsProvider.userRequired.energy,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Box(
-                image: "assets/images/Security.png",
-                win: userWinsProvider.userWins.security,
-                needed: userWinsProvider.userRequired.security,
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Box(
-                image: "assets/images/Wisdom.png",
-                win: userWinsProvider.userWins.wisdom,
-                needed: userWinsProvider.userRequired.wisdom,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Box(
-                image: "assets/images/Nature.png",
-                win: userWinsProvider.userWins.nature,
-                needed: userWinsProvider.userRequired.nature,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Box(
-                image: "assets/images/Economy.png",
-                win: userWinsProvider.userWins.economy,
-                needed: userWinsProvider.userRequired.economy,
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 15),
+        width: constraints.maxWidth,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Box(
+                  image: "assets/images/Art.png",
+                  win: userWinsProvider.userWins.art,
+                  needed: userWinsProvider.userRequired.art,
+                ),
+                Box(
+                  image: "assets/images/Energy.png",
+                  win: userWinsProvider.userWins.energy,
+                  needed: userWinsProvider.userRequired.energy,
+                  colorData: const Color(0xFF7E7A3F),
+                ),
+                Box(
+                  image: "assets/images/Security.png",
+                  win: userWinsProvider.userWins.security,
+                  needed: userWinsProvider.userRequired.security,
+                  colorData: const Color(0xFF681E1C),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Box(
+                  image: "assets/images/Nature.png",
+                  win: userWinsProvider.userWins.nature,
+                  needed: userWinsProvider.userRequired.nature,
+                  colorData: const Color(0xFF91BC55),
+                ),
+                Box(
+                  image: "assets/images/Wisdom.png",
+                  win: userWinsProvider.userWins.wisdom,
+                  needed: userWinsProvider.userRequired.wisdom,
+                  colorData: const Color(0xFFD05D3C),
+                ),
+                Box(
+                  image: "assets/images/Economy.png",
+                  win: userWinsProvider.userWins.economy,
+                  needed: userWinsProvider.userRequired.economy,
+                  colorData: const Color(0xFF295B39),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    });
   }
 }
