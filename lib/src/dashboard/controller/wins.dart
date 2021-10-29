@@ -35,6 +35,7 @@ class UserWinsProvider with ChangeNotifier {
     int randomNumber = random.nextInt(13);
     _userRequired = _kingdoms[randomNumber + 1];
     _winList = [];
+    _userWins = WinModal();
     notifyListeners();
   }
 
