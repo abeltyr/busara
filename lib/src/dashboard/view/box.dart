@@ -22,10 +22,11 @@ class Box extends StatelessWidget {
       height: 127.5,
       padding: const EdgeInsets.only(top: 15, bottom: 7.5),
       decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
             color: colorData,
-            width: 2,
+            width: 5,
           )),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

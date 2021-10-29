@@ -110,7 +110,8 @@ class MyApp extends StatelessWidget {
                       return const GameOver();
 
                     default:
-                      return const StarterScreen();
+                      return const GameOver();
+                    // return const StarterScreen();
                   }
                 },
               );

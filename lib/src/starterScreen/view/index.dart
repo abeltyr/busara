@@ -2,6 +2,7 @@ import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/dashboard/view/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rive/rive.dart';
 
 class StarterScreen extends StatelessWidget {
   const StarterScreen({Key? key}) : super(key: key);
@@ -17,8 +18,8 @@ class StarterScreen extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Image.asset(
-                "assets/images/Back.png",
+              child: const RiveAnimation.asset(
+                "assets/animations/spaceCoffee.riv",
                 fit: BoxFit.fitWidth,
               ),
             ),
@@ -30,16 +31,14 @@ class StarterScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    "Busara",
+                    "Busara Board Game",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  const SizedBox(height: 50),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, DashboardScreen.routeName);
@@ -47,17 +46,18 @@ class StarterScreen extends StatelessWidget {
                           .generate();
                     },
                     child: Container(
-                      width: 150,
-                      height: 75,
+                      width: 200,
+                      height: 65,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: Colors.greenAccent,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: const Text(
                         "Let Play",
                         style: TextStyle(
                           fontSize: 30,
+                          color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
