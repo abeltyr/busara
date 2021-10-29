@@ -108,10 +108,8 @@ class MyApp extends StatelessWidget {
                       return const DashboardScreen();
                     case GameOver.routeName:
                       return const GameOver();
-
                     default:
-                      return const GameOver();
-                    // return const StarterScreen();
+                      return const StarterScreen();
                   }
                 },
               );
