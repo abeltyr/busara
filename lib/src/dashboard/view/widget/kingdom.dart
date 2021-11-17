@@ -1,4 +1,3 @@
-import 'package:busara/models/wins.dart';
 import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class Kingdom extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           child: Image.asset(
             userWinsProvider.userRequired.image,
-            fit: BoxFit.cover,
+            fit: BoxFit.fitHeight,
           ),
         ),
       );

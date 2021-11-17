@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:busara/models/board_component.dart';
 import 'package:busara/src/dashboard/controller/index.dart';
-import 'package:busara/src/dashboard/controller/wins.dart';
 import 'package:busara/src/dashboard/view/widget/resource.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';

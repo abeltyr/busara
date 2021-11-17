@@ -31,7 +31,16 @@ class StarterScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    "Busara Board Game",
+                    "Busara ",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  const Text(
+                    "Kingdom of Africa ",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
